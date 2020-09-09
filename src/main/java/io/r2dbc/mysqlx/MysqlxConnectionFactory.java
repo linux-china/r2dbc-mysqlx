@@ -13,17 +13,17 @@ import reactor.core.publisher.Mono;
  * @author linux_china
  */
 public class MysqlxConnectionFactory implements ConnectionFactory {
-    private SessionFactory sessionFactory;
-    private String url;
+    private final SessionFactory sessionFactory;
+    private final String mysqlxUrl;
 
-    public MysqlxConnectionFactory(String url, String userName, String password) {
-        this.url = url;
+    public MysqlxConnectionFactory(String mysqlxUrl) {
+        this.mysqlxUrl = mysqlxUrl;
         this.sessionFactory = new SessionFactory();
     }
 
     @Override
     public Publisher<? extends Connection> create() {
-        return Mono.just(new MysqlxConnection(this.sessionFactory.getSession(this.url)));
+        return Mono.just(new MysqlxConnection(this.sessionFactory.getSession(this.mysqlxUrl)));
     }
 
     @Override
