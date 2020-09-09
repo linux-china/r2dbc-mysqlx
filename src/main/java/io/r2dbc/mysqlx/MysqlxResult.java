@@ -41,7 +41,7 @@ public class MysqlxResult implements Result {
     public <T> Publisher<T> map(BiFunction<Row, RowMetadata, ? extends T> mappingFunction) {
         // select
         if (sqlResult instanceof SqlMultiResult) {
-            return Flux.fromIterable(sqlResult.fetchAll()).map(row -> {
+            return Flux.fromIterable(sqlResult).map(row -> {
                 MysqlxRowMetadata rowMetadata = new MysqlxRowMetadata((SqlMultiResult) sqlResult);
                 return mappingFunction.apply(new MysqlxRow(row, rowMetadata), rowMetadata);
             });
