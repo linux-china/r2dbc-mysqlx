@@ -1,6 +1,7 @@
 package io.r2dbc.mysqlx;
 
 import com.mysql.cj.xdevapi.Session;
+import com.mysql.cj.xdevapi.SqlStatement;
 import io.r2dbc.spi.*;
 import org.reactivestreams.Publisher;
 
@@ -10,10 +11,20 @@ import org.reactivestreams.Publisher;
  * @author linux_china
  */
 public class MysqlxConnection implements Connection {
-    private Session mysqlxSession;
+    private final Session mysqlxSession;
+    private ConnectionMetadata connectionMetadata;
 
     public MysqlxConnection(Session mysqlxSession) {
         this.mysqlxSession = mysqlxSession;
+        init();
+    }
+
+    private void init() {
+        SqlStatement statement = mysqlxSession.sql(" select version() as version");
+        statement.executeAsync().thenAccept(sqlResult -> {
+            String version = sqlResult.fetchOne().getString("version");
+            this.connectionMetadata = new MysqlxConnectionMetadata(version);
+        });
     }
 
     @Override
@@ -43,7 +54,7 @@ public class MysqlxConnection implements Connection {
 
     @Override
     public Statement createStatement(String sql) {
-        return null;
+        return new MysqlxStatement(this.mysqlxSession, sql);
     }
 
     @Override
@@ -53,7 +64,7 @@ public class MysqlxConnection implements Connection {
 
     @Override
     public ConnectionMetadata getMetadata() {
-        return null;
+        return this.connectionMetadata;
     }
 
     @Override
