@@ -9,8 +9,8 @@ import io.r2dbc.spi.Nullability;
  * @author linux_china
  */
 public class SingleColumnMetadata implements ColumnMetadata {
-    private String column;
-    private Class<?> javaType;
+    private final String column;
+    private final Class<?> javaType;
 
     public SingleColumnMetadata(String column, Class<?> javaType) {
         this.column = column;
