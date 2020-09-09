@@ -4,6 +4,8 @@ import com.mysql.cj.xdevapi.Session;
 import com.mysql.cj.xdevapi.SqlStatement;
 import io.r2dbc.spi.*;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoProcessor;
 
 /**
  * MySQL X Protocol R2DBC Connection
@@ -13,6 +15,8 @@ import org.reactivestreams.Publisher;
 public class MysqlxConnection implements Connection {
     private final Session mysqlxSession;
     private ConnectionMetadata connectionMetadata;
+
+    private final MonoProcessor<Void> onClose = MonoProcessor.create();
 
     public MysqlxConnection(Session mysqlxSession) {
         this.mysqlxSession = mysqlxSession;
@@ -29,27 +33,27 @@ public class MysqlxConnection implements Connection {
 
     @Override
     public Publisher<Void> beginTransaction() {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Void> close() {
-        return null;
+        return this.onClose;
     }
 
     @Override
     public Publisher<Void> commitTransaction() {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Batch createBatch() {
-        return null;
+        throw new UnsupportedOperationException("MySQL X Protocol doesn't support batch!");
     }
 
     @Override
     public Publisher<Void> createSavepoint(String name) {
-        return null;
+        return Mono.empty();
     }
 
     @Override
@@ -59,7 +63,7 @@ public class MysqlxConnection implements Connection {
 
     @Override
     public boolean isAutoCommit() {
-        return false;
+        return true;
     }
 
     @Override
@@ -69,36 +73,36 @@ public class MysqlxConnection implements Connection {
 
     @Override
     public IsolationLevel getTransactionIsolationLevel() {
-        return null;
+        return IsolationLevel.READ_UNCOMMITTED;
     }
 
     @Override
     public Publisher<Void> releaseSavepoint(String name) {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Void> rollbackTransaction() {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Void> rollbackTransactionToSavepoint(String name) {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Void> setAutoCommit(boolean autoCommit) {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Void> setTransactionIsolationLevel(IsolationLevel isolationLevel) {
-        return null;
+        return Mono.empty();
     }
 
     @Override
     public Publisher<Boolean> validate(ValidationDepth depth) {
-        return null;
+        return Mono.empty();
     }
 }
