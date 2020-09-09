@@ -41,6 +41,11 @@ public class MysqlxConnection implements Connection {
         return this.onClose;
     }
 
+    public void dispose() {
+        mysqlxSession.close();
+        this.onClose.onComplete();
+    }
+
     @Override
     public Publisher<Void> commitTransaction() {
         return Mono.empty();
