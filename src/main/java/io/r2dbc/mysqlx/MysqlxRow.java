@@ -43,6 +43,7 @@ public class MysqlxRow implements io.r2dbc.spi.Row {
         INDEXED_CONVERTS.put(LocalTime.class, (row, index) -> row.getTime(index).toLocalTime());
         // String
         INDEXED_CONVERTS.put(String.class, Row::getString);
+        NAMED_CONVERTS.put(String.class, Row::getString);
     }
 
     private final Row rawRow;
@@ -78,6 +79,6 @@ public class MysqlxRow implements io.r2dbc.spi.Row {
         if (converter == null) {
             return null;
         }
-        return (T) NAMED_CONVERTS.get(type).convert(rawRow, name);
+        return (T) converter.convert(rawRow, name);
     }
 }
