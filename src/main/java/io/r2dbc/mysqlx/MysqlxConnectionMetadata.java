@@ -8,7 +8,7 @@ import io.r2dbc.spi.ConnectionMetadata;
  * @author linux_china
  */
 public class MysqlxConnectionMetadata implements ConnectionMetadata {
-    private String version;
+    private final String version;
 
     public MysqlxConnectionMetadata(String version) {
         this.version = version;
