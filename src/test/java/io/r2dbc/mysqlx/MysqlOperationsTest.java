@@ -27,10 +27,18 @@ public class MysqlOperationsTest extends MysqlxBaseTest {
 
     @Test
     public void testInsert() throws Exception {
-        SqlStatement statement = mysqlSession.sql("insert into people(nick, created_at) values('good2',now())");
+        mysqlSession.startTransaction();
+        SqlStatement statement = mysqlSession.sql("insert into people(nick, created_at) values('dddd',now())");
         CompletableFuture<SqlResult> future = statement.executeAsync();
         Mono.fromFuture(future)
                 .map(SqlResult::getAutoIncrementValue)
+                .doOnError(throwable -> {
+                    System.out.println("rollback");
+                    mysqlSession.rollback();
+                }).doOnSuccess(aLong -> {
+            System.out.println("commit");
+            mysqlSession.commit();
+        })
                 .subscribe(System.out::println);
         Thread.sleep(2000);
     }
