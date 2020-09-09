@@ -4,7 +4,7 @@ import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import io.r2dbc.spi.ConnectionFactoryProvider;
 
-import static io.r2dbc.spi.ConnectionFactoryOptions.DRIVER;
+import static io.r2dbc.spi.ConnectionFactoryOptions.*;
 
 /**
  * Mysql X Protocol R2DBC ConnectionFactoryProvider
@@ -16,7 +16,14 @@ public class MysqlxConnectionFactoryProvider implements ConnectionFactoryProvide
 
     @Override
     public ConnectionFactory create(ConnectionFactoryOptions connectionFactoryOptions) {
-        return null;
+        String host = connectionFactoryOptions.getValue(HOST);
+        Integer port = connectionFactoryOptions.getValue(PORT);
+        String database = connectionFactoryOptions.getValue(DATABASE);
+        String user = connectionFactoryOptions.getValue(USER);
+        CharSequence password = connectionFactoryOptions.getValue(PASSWORD);
+        //convert to mysqlx url
+        String mysqlxUrl = MYSQLX_DRIVER + "://" + host + ":" + port + "/" + database + "?user=" + user + "&password=" + (password == null ? "" : password.toString());
+        return new MysqlxConnectionFactory(mysqlxUrl);
     }
 
     @Override
