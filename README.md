@@ -30,3 +30,4 @@ statement.bind(1, "Happy Books LLC");
 * MySQL X Protocol: https://dev.mysql.com/doc/dev/mysql-server/8.0.20/mysqlx_protocol.html
 * R2DBC: https://r2dbc.io/
 * R2DBC Specification: https://r2dbc.io/spec/0.8.2.RELEASE/spec/html/
+* MySQL X Comparison to MySQL C/S Protocol: https://dev.mysql.com/doc/dev/mysql-server/8.0.21/mysqlx_protocol_comparison.html
