@@ -14,10 +14,10 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <r2dbc-bom.version>Arabba-SR7</r2dbc-bom.version>
+        <r2dbc-bom.version>Arabba-SR8</r2dbc-bom.version>
         <protobuf.version>3.12.4</protobuf.version>
-        <mysql-connector.version>8.0.21</mysql-connector.version>
-        <junt5.version>5.6.2</junt5.version>
+        <mysql-connector.version>8.0.22</mysql-connector.version>
+        <junt5.version>5.7.0</junt5.version>
     </properties>
 
     <dependencies>
@@ -66,7 +66,7 @@
             <dependency>
                 <groupId>io.projectreactor</groupId>
                 <artifactId>reactor-bom</artifactId>
-                <version>Dysprosium-SR11</version>
+                <version>Dysprosium-SR12</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
