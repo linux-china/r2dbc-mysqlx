@@ -15,7 +15,7 @@ public class MysqlOperationsTest extends MysqlxBaseTest {
     public void testQuery() throws Exception {
         List<Object> binding = new ArrayList<>();
         binding.add(1);
-        SqlStatement statement = mysqlSession.sql("select * from account where id = ?").bind(binding);
+        SqlStatement statement = mysqlSession.sql("select * from people where id = ?").bind(binding);
         CompletableFuture<SqlResult> future = statement.executeAsync();
         Mono.fromFuture(future)
                 .flatMapMany(sqlResult -> Flux.fromIterable(sqlResult.fetchAll()))
