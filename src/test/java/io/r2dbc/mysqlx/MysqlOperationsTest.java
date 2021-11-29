@@ -36,9 +36,9 @@ public class MysqlOperationsTest extends MysqlxBaseTest {
                     System.out.println("rollback");
                     mysqlSession.rollback();
                 }).doOnSuccess(aLong -> {
-            System.out.println("commit");
-            mysqlSession.commit();
-        })
+                    System.out.println("commit");
+                    mysqlSession.commit();
+                })
                 .subscribe(System.out::println);
         Thread.sleep(2000);
     }
