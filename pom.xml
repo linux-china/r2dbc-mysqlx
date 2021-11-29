@@ -13,7 +13,7 @@
     <url>https://github.com/linux-china/r2dbc-mysqlx</url>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <r2dbc-bom.version>Arabba-SR11</r2dbc-bom.version>
