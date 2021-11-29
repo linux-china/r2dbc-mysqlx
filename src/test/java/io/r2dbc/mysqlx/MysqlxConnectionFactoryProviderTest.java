@@ -46,7 +46,6 @@ public class MysqlxConnectionFactoryProviderTest {
     @Test
     public void testExecute() throws Exception {
         Mono<? extends Result> monoResult = (Mono<? extends Result>) connection.createStatement("INSERT INTO people(nick, created_at) VALUES ('demo',now())")
-                .bind("nick", "counter1")
                 .execute();
         monoResult.flatMap(result -> {
             return Mono.from(result.getRowsUpdated());
