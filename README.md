@@ -5,11 +5,13 @@ R2DBC MySQL X Protocol Implementation
 
 * Non-blocking, asynchronous calls follow common host language patterns
 
-# Parameter binding
-
-**Attention**: Please use '?' for parameter binding. "$1", ":name" and null binding are not supported by MySQL X Protocol.
+# Example
 
 ```
+String r2dcUrl = "r2dbc:mysqlx://root@127.0.0.1:33060/r2dbc";
+ConnectionFactory factory = ConnectionFactories.get(r2dcUrl);
+connection = ((Mono<Connection>) factory.create()).block();
+
 Statement statement = connection.createStatement("SELECT title FROM books WHERE author = ? and publisher = ?");
 statement.bind(0, "John Doe");
 statement.bind(1, "Happy Books LLC");
