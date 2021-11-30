@@ -70,7 +70,6 @@ public class MysqlxStatement implements Statement {
 
     @Override
     public Publisher<? extends Result> execute() {
-        //String command = sql.substring(0, sql.indexOf(' ')).toLowerCase();
         SqlStatement statement = mysqlxSession.sql(flatSQL());
         if (!this.binding.isEmpty()) {
             statement.bind(binding);
