@@ -1,7 +1,8 @@
 package io.r2dbc.mysqlx;
 
 import io.r2dbc.spi.Connection;
-import io.r2dbc.spi.ConnectionFactoryOptions;
+import io.r2dbc.spi.ConnectionFactories;
+import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Result;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,16 +21,8 @@ public class MysqlxConnectionFactoryProviderTest {
     @BeforeAll
     public static void setUp() {
         String r2dcUrl = "r2dbc:mysqlx://root@127.0.0.1:33060/r2dbc";
-        /*ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
-                .option(ConnectionFactoryOptions.DRIVER, "mysqlx")
-                .option(ConnectionFactoryOptions.HOST, "127.0.0.1")
-                .option(ConnectionFactoryOptions.PORT, 33060)
-                .option(ConnectionFactoryOptions.DATABASE, "r2dbc")
-                .option(ConnectionFactoryOptions.USER, "root")
-                .build();*/
-        ConnectionFactoryOptions options = ConnectionFactoryOptions.parse(r2dcUrl);
-        MysqlxConnectionFactoryProvider provider = new MysqlxConnectionFactoryProvider();
-        connection = ((Mono<Connection>) provider.create(options).create()).block();
+        ConnectionFactory factory = ConnectionFactories.get(r2dcUrl);
+        connection = ((Mono<Connection>) factory.create()).block();
     }
 
     @Test
