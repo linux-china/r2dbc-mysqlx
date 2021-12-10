@@ -1,6 +1,7 @@
 package io.r2dbc.mysqlx.update;
 
 import io.r2dbc.spi.Row;
+import io.r2dbc.spi.RowMetadata;
 
 /**
  * single value row
@@ -11,10 +12,12 @@ import io.r2dbc.spi.Row;
 public class SingleValueRow<V> implements Row {
     private final V value;
     private final String name;
+    private final RowMetadata metadata;
 
-    public SingleValueRow(String name, V value) {
+    public SingleValueRow(String name, V value, RowMetadata metadata) {
         this.name = name;
         this.value = value;
+        this.metadata = metadata;
     }
 
     @Override
@@ -27,4 +30,8 @@ public class SingleValueRow<V> implements Row {
         return (T) value;
     }
 
+    @Override
+    public RowMetadata getMetadata() {
+        return this.metadata;
+    }
 }

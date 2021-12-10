@@ -2,10 +2,12 @@ package io.r2dbc.mysqlx.update;
 
 import io.r2dbc.mysqlx.SingleColumnMetadata;
 import io.r2dbc.spi.ColumnMetadata;
+import io.r2dbc.spi.R2dbcType;
 import io.r2dbc.spi.RowMetadata;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * single value row metadata
@@ -17,10 +19,10 @@ public class SingleValueRowMetadata implements RowMetadata {
     private final String columnName;
     private final Class<?> valueType;
 
-    public SingleValueRowMetadata(String columnName, Class<?> valueType) {
+    public SingleValueRowMetadata(String columnName, Class<?> valueType, R2dbcType r2dbcType) {
         this.columnName = columnName;
         this.valueType = valueType;
-        this.columnMetadata = new SingleColumnMetadata(columnName, valueType);
+        this.columnMetadata = new SingleColumnMetadata(columnName, valueType, r2dbcType);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class SingleValueRowMetadata implements RowMetadata {
     }
 
     @Override
-    public Iterable<? extends ColumnMetadata> getColumnMetadatas() {
+    public List<? extends ColumnMetadata> getColumnMetadatas() {
         return Collections.singletonList(columnMetadata);
     }
 

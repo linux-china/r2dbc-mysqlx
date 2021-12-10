@@ -4,6 +4,7 @@ package io.r2dbc.mysqlx;
 import com.mysql.cj.xdevapi.Row;
 import io.r2dbc.mysqlx.convert.RowIndexedValueConverter;
 import io.r2dbc.mysqlx.convert.RowNamedValueConverter;
+import io.r2dbc.spi.RowMetadata;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -80,5 +81,10 @@ public class MysqlxRow implements io.r2dbc.spi.Row {
             return null;
         }
         return (T) converter.convert(rawRow, name);
+    }
+
+    @Override
+    public RowMetadata getMetadata() {
+        return this.rowMetadata;
     }
 }

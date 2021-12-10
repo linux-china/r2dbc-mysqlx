@@ -2,6 +2,8 @@ package io.r2dbc.mysqlx;
 
 import io.r2dbc.spi.ColumnMetadata;
 import io.r2dbc.spi.Nullability;
+import io.r2dbc.spi.R2dbcType;
+import io.r2dbc.spi.Type;
 
 /**
  * Single column metadata
@@ -11,15 +13,22 @@ import io.r2dbc.spi.Nullability;
 public class SingleColumnMetadata implements ColumnMetadata {
     private final String column;
     private final Class<?> javaType;
+    private final R2dbcType r2dbcType;
 
-    public SingleColumnMetadata(String column, Class<?> javaType) {
+    public SingleColumnMetadata(String column, Class<?> javaType, R2dbcType r2dbcType) {
         this.column = column;
         this.javaType = javaType;
+        this.r2dbcType = r2dbcType;
     }
 
     @Override
     public Class<?> getJavaType() {
         return this.javaType;
+    }
+
+    @Override
+    public Type getType() {
+        return r2dbcType;
     }
 
     @Override

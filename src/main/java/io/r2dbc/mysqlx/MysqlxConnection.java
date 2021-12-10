@@ -75,6 +75,12 @@ public class MysqlxConnection implements Connection {
     }
 
     @Override
+    public Publisher<Void> beginTransaction(TransactionDefinition definition) {
+        mysqlxSession.startTransaction();
+        return Mono.empty();
+    }
+
+    @Override
     public Publisher<Void> commitTransaction() {
         mysqlxSession.commit();
         return Mono.empty();
@@ -132,6 +138,16 @@ public class MysqlxConnection implements Connection {
     @Override
     public Publisher<Void> setAutoCommit(boolean autoCommit) {
         throw new UnsupportedOperationException("MySQL X Protocol doesn't support auto commit!");
+    }
+
+    @Override
+    public Publisher<Void> setLockWaitTimeout(Duration timeout) {
+        return Mono.empty();
+    }
+
+    @Override
+    public Publisher<Void> setStatementTimeout(Duration timeout) {
+        return Mono.empty();
     }
 
     @Override

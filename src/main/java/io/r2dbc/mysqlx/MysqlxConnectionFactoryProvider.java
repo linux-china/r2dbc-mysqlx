@@ -16,11 +16,11 @@ public class MysqlxConnectionFactoryProvider implements ConnectionFactoryProvide
 
     @Override
     public ConnectionFactory create(ConnectionFactoryOptions connectionFactoryOptions) {
-        String host = connectionFactoryOptions.getValue(HOST);
-        Integer port = connectionFactoryOptions.getValue(PORT);
-        String database = connectionFactoryOptions.getValue(DATABASE);
-        String user = connectionFactoryOptions.getValue(USER);
-        CharSequence password = connectionFactoryOptions.getValue(PASSWORD);
+        Object host = connectionFactoryOptions.getValue(HOST);
+        Object port = connectionFactoryOptions.getValue(PORT);
+        Object database = connectionFactoryOptions.getValue(DATABASE);
+        Object user = connectionFactoryOptions.getValue(USER);
+        Object password = connectionFactoryOptions.getValue(PASSWORD);
         //convert to mysqlx url
         String mysqlxUrl = MYSQLX_DRIVER + "://" + host + ":" + port + "/" + database + "?user=" + user + "&password=" + (password == null ? "" : password.toString());
         return new MysqlxConnectionFactory(mysqlxUrl);

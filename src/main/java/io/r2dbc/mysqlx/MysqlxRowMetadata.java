@@ -4,6 +4,7 @@ import com.mysql.cj.xdevapi.Column;
 import com.mysql.cj.xdevapi.SqlMultiResult;
 import com.mysql.cj.xdevapi.Type;
 import io.r2dbc.spi.ColumnMetadata;
+import io.r2dbc.spi.R2dbcType;
 import io.r2dbc.spi.RowMetadata;
 
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ public class MysqlxRowMetadata implements RowMetadata {
     public MysqlxRowMetadata(SqlMultiResult sqlMultiResult) {
         for (Column column : sqlMultiResult.getColumns()) {
             String columnName = column.getColumnName();
-            SingleColumnMetadata columnMetadata = new SingleColumnMetadata(columnName, convertToJavaType(column.getType()));
+            SingleColumnMetadata columnMetadata = new SingleColumnMetadata(columnName, convertToJavaType(column.getType()), convertToR2DBCType(column.getType()));
             columns.add(columnMetadata);
             columnMap.put(columnName, columnMetadata);
         }
@@ -42,7 +43,7 @@ public class MysqlxRowMetadata implements RowMetadata {
     }
 
     @Override
-    public Iterable<? extends ColumnMetadata> getColumnMetadatas() {
+    public List<? extends ColumnMetadata> getColumnMetadatas() {
         return this.columns;
     }
 
@@ -51,8 +52,8 @@ public class MysqlxRowMetadata implements RowMetadata {
         return columns.stream().map(SingleColumnMetadata::getName).collect(Collectors.toList());
     }
 
-    public Class<?> convertToJavaType(Type xType) {
-        // R2DBC Data Types: http://r2dbc.io/spec/0.8.2.RELEASE/spec/html/#datatypes  local date
+    public static Class<?> convertToJavaType(Type xType) {
+        // R2DBC Data Types: http://r2dbc.io/spec/0.9.0.RELEASE/spec/html/#datatypes  local date
         switch (xType) {
             case BIT:
             case TINYINT:
@@ -88,5 +89,42 @@ public class MysqlxRowMetadata implements RowMetadata {
                 return Object.class;
         }
         return Object.class;
+    }
+
+    public static R2dbcType convertToR2DBCType(Type xType) {
+        // R2DBC Data Types: https://r2dbc.io/spec/0.9.0.RELEASE/spec/html/#datatypes
+        switch (xType) {
+            case BIT:
+            case TINYINT:
+                return R2dbcType.TINYINT;
+            case SMALLINT:
+            case MEDIUMINT:
+            case INT:
+                return R2dbcType.INTEGER;
+            case BIGINT:
+                return R2dbcType.BIGINT;
+            case FLOAT:
+                return R2dbcType.REAL;
+            case DECIMAL:
+                return R2dbcType.DECIMAL;
+            case DOUBLE:
+                return R2dbcType.DOUBLE;
+            case ENUM:
+            case GEOMETRY:
+            case JSON:
+            case STRING:
+                return R2dbcType.VARCHAR;
+            case TIME:
+                return R2dbcType.TIME;
+            case DATE:
+                return R2dbcType.DATE;
+            case DATETIME:
+            case TIMESTAMP:
+                return R2dbcType.TIMESTAMP;
+            case SET:
+                return R2dbcType.COLLECTION;
+            default:
+                return R2dbcType.BINARY;
+        }
     }
 }
