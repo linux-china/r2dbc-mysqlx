@@ -36,8 +36,8 @@ public class MysqlxResult implements Result {
     }
 
     @Override
-    public Publisher<Integer> getRowsUpdated() {
-        return Mono.just((int) sqlResult.getAffectedItemsCount());
+    public Publisher<Long> getRowsUpdated() {
+        return Mono.just(sqlResult.getAffectedItemsCount());
     }
 
     @Override

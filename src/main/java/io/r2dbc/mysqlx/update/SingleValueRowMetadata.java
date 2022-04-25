@@ -5,7 +5,6 @@ import io.r2dbc.spi.ColumnMetadata;
 import io.r2dbc.spi.R2dbcType;
 import io.r2dbc.spi.RowMetadata;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class SingleValueRowMetadata implements RowMetadata {
     }
 
     @Override
-    public Collection<String> getColumnNames() {
-        return Collections.singletonList(columnName);
+    public boolean contains(String columnName) {
+        return this.columnName.equalsIgnoreCase(columnName);
     }
 }

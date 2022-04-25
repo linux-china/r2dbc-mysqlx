@@ -11,8 +11,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * MySQL X protocol R2DBC RowMetadata
@@ -48,8 +50,8 @@ public class MysqlxRowMetadata implements RowMetadata {
     }
 
     @Override
-    public Collection<String> getColumnNames() {
-        return columns.stream().map(SingleColumnMetadata::getName).collect(Collectors.toList());
+    public boolean contains(String columnName) {
+        return this.columnMap.containsKey(columnName);
     }
 
     public static Class<?> convertToJavaType(Type xType) {
